@@ -11,7 +11,7 @@ class AddProfileDialog extends StatefulWidget {
 class _AddProfileDialogState extends State<AddProfileDialog> {
   String walletColor = 'ffffff';
   int currentIndex = 0;
-
+  double _textSize = 20.0;
   List<Color> colorList = [
     Colors.red,
     Colors.blue,
@@ -54,10 +54,45 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
             ),
           ),
           const SizedBox(height: 24),
+          Text(
+            'Select a font size :',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Text(
+                        'Sample Text',
+                        style: TextStyle(
+                          fontSize: _textSize,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Slider(
+                    value: _textSize,
+                    min: 10.0,
+                    max: 40.0,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _textSize = newValue;
+                      });
+                    },
+                  ),
+                ],
+              ),
               Text(
                 'Select a theme color :',
                 style: TextStyle(
@@ -67,7 +102,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
               ),
               const SizedBox(height: 8),
               SizedBox(
-                height: 200,
+                height: 150,
                 child: GridView.builder(
                   itemCount: colorList.length,
                   physics: NeverScrollableScrollPhysics(),
