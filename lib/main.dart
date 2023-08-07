@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:foyer_demo/features/home/presentation/ui/home_page.dart';
 
-void main() {
+import 'injectable.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(const MyApp());
 }
 

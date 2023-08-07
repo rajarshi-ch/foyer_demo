@@ -25,18 +25,4 @@ class Location extends Equatable {
   static bool isValidLocation(double latitude, double longitude) {
     return isValidLatitude(latitude) && isValidLongitude(longitude);
   }
-
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
-      latitude: json['latitude'].toDouble(),
-      longitude: json['longitude'].toDouble(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'latitude': latitude,
-      'longitude': longitude,
-    };
-  }
 }
