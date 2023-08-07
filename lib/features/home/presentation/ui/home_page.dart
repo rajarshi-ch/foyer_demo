@@ -6,6 +6,7 @@ import 'package:foyer_demo/core/enums/screen_status.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
 import 'package:foyer_demo/features/locations/presentation/cubit/location_cubit.dart';
 import 'package:foyer_demo/features/locations/presentation/ui/location_input_dialog.dart';
+import 'package:foyer_demo/features/profiles/presentation/ui/add_profile_dialog.dart';
 import 'package:foyer_demo/injectable.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -71,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showLocationInputDialog(context),
+        onPressed: () => showAddProfileDialog(context),
+        //onPressed: () => _showLocationInputDialog(context),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -17,7 +17,6 @@ class LocationRepositoryImpl implements LocationRepository {
 
   @override
   Future<Option<Failure>> addLocation({required Location location}) async {
-    log('LocationRepositoryImpl : Latitude: ${location.latitude}, Longitude: ${location.longitude} , profileId : ${location.profileId}');
     try {
       await dataSource.addLocation(
           location: LocationModel.fromEntity(location));

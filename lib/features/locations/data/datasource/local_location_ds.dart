@@ -40,7 +40,6 @@ class LocalLocationDataSource implements LocationDataSource {
 
       // Convert the List<Map<String, dynamic> into a List<LocationModel>.
       return List.generate(maps.length, (i) {
-        log('Raw database data : ${maps[i].toString()}');
         return LocationModel.fromJson(maps[i]);
       });
     } catch (e) {
