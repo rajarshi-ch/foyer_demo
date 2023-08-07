@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foyer_demo/core/enums/screen_status.dart';
@@ -22,7 +24,7 @@ class LocationCubit extends Cubit<LocationState> {
 
   Future fetchAllLocations() async {
     //Get all locations from db and store in state
-
+    log("Fetching all locations");
     emit(state.copyWith(status: ScreenStatus.loading));
     final result = await getAllLocationsUC.call(NoParams());
     result.fold(

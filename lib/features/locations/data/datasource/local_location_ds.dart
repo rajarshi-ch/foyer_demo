@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:foyer_demo/core/constants/const_values.dart';
 import 'package:foyer_demo/core/database/database.dart';
 import 'package:foyer_demo/core/error/exceptions.dart';
@@ -15,13 +17,15 @@ class LocalLocationDataSource implements LocationDataSource {
   Future addLocation({required LocationModel location}) async {
     try {
       final db = await databaseHelper.database;
-
+      log('LocalLocationDataSource.addLocation : Latitude: ${location.latitude}, Longitude: ${location.longitude} , profileId : ${location.profileId}');
+      log('Adding ${location.toJson()} to Database');
       await db.insert(
         kLocationsTableName,
         location.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
-    } on Error {
+    } catch (e) {
+      log(e.toString());
       throw LocalDatabaseException();
     }
   }
@@ -36,9 +40,11 @@ class LocalLocationDataSource implements LocationDataSource {
 
       // Convert the List<Map<String, dynamic> into a List<LocationModel>.
       return List.generate(maps.length, (i) {
+        log('Raw database data : ${maps[i].toString()}');
         return LocationModel.fromJson(maps[i]);
       });
-    } on Error {
+    } catch (e) {
+      log(e.toString());
       throw LocalDatabaseException();
     }
   }

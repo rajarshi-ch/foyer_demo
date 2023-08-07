@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     if (location != null) {
-      log('Latitude: ${location.latitude}, Longitude: ${location.longitude}');
+      log('Latitude: ${location.latitude}, Longitude: ${location.longitude} , profileId : ${location.profileId}');
       getIt<LocationCubit>().addLocation(location);
     }
   }
@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text(
-                          'Latitude : ${state.allLocations[index].latitude} , Longitude : ${state.allLocations[index].longitude}'),
+                          '${state.allLocations[index].id} | Latitude : ${state.allLocations[index].latitude} , Longitude : ${state.allLocations[index].longitude} | Profile : ${state.allLocations[index].profileId}'),
                     );
                   },
                 );

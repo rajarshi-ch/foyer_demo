@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:foyer_demo/core/constants/const_values.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,7 +26,14 @@ class DatabaseHelper {
     // TODO : Insert default database entries here
     log("Oncreate database called");
     return db.execute(
-      'CREATE TABLE $kLocationsTableName(id INTEGER PRIMARY KEY, latitude REAL, longitude REAL)',
+      'CREATE TABLE $kLocationsTableName(id INTEGER PRIMARY KEY autoincrement, latitude REAL, longitude REAL, profileId INTEGER)',
     );
+  }
+
+  Future deleteDatabase() async {
+    String databasesPath = await getDatabasesPath();
+    String dbPath = join(databasesPath, 'foyer_database.db');
+
+    await databaseFactory.deleteDatabase(dbPath);
   }
 }

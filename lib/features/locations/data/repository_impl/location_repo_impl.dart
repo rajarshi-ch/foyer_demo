@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:foyer_demo/core/error/exceptions.dart';
 import 'package:foyer_demo/core/error/failures.dart';
@@ -15,6 +17,7 @@ class LocationRepositoryImpl implements LocationRepository {
 
   @override
   Future<Option<Failure>> addLocation({required Location location}) async {
+    log('LocationRepositoryImpl : Latitude: ${location.latitude}, Longitude: ${location.longitude} , profileId : ${location.profileId}');
     try {
       await dataSource.addLocation(
           location: LocationModel.fromEntity(location));

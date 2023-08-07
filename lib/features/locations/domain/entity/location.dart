@@ -4,15 +4,18 @@ import 'package:foyer_demo/core/constants/const_values.dart';
 class Location extends Equatable {
   final double latitude;
   final double longitude;
-  final int profileId;
+  final int? profileId;
+  final int? id;
+
   const Location({
     required this.latitude,
     required this.longitude,
     this.profileId = kDefaultProfileId,
+    this.id,
   });
 
   @override
-  List<Object?> get props => [latitude, longitude, profileId];
+  List<Object?> get props => [id, latitude, longitude, profileId];
 
   static bool isValidLatitude(double latitude) {
     return latitude >= -90.0 && latitude <= 90.0;

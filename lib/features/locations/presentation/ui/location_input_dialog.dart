@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foyer_demo/core/database/database.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
+import 'package:foyer_demo/injectable.dart';
 
 class LocationInputDialog extends StatefulWidget {
   const LocationInputDialog({super.key});
@@ -66,6 +68,7 @@ class _LocationInputDialogState extends State<LocationInputDialog> {
       actions: [
         ElevatedButton(
           onPressed: () {
+            getIt<DatabaseHelper>().deleteDatabase();
             Navigator.of(context).pop();
           },
           child: Text('Cancel'),
