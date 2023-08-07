@@ -22,7 +22,6 @@ class ProfileModel extends ProfileEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'themeColor': themeColor,
       'textSize': textSize,
     };

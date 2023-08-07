@@ -5,6 +5,6 @@ import '../../../../core/error/failures.dart';
 
 abstract class LocationRepository {
   Future<Either<Failure, List<Location>>> getAllLocations();
-  Future<Option<Failure>> addLocation({required Location location});
+  Future<Either<Failure, int>> addLocation({required Location location});
   Future<Option<Failure>> assignProfileToLocation({required int id});
 }

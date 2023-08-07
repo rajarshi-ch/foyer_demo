@@ -17,10 +17,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<Either<Failure, int>> addProfile(
-      {required ProfileEntity profile}) async {
+      {required ProfileEntity profile, required int locationId}) async {
     try {
       var result = await dataSource.addProfile(
-          profile: ProfileModel.fromEntity(profile));
+          profile: ProfileModel.fromEntity(profile), locationId: locationId);
       return Right(result);
     } on LocalDatabaseException {
       return Left(LocalDatabaseFailure());

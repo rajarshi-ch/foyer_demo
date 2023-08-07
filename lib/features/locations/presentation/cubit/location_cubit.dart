@@ -37,8 +37,12 @@ class LocationCubit extends Cubit<LocationState> {
     //adds or replaces a location in db and in state
     emit(state.copyWith(status: ScreenStatus.loading));
     final result = await addLocationUC.call(location);
-    result.fold(() {
-      fetchAllLocations();
-    }, (a) => emit(state.copyWith(status: ScreenStatus.error)));
+    result.fold(
+      (failure) => emit(state.copyWith(status: ScreenStatus.error)),
+      (id) {
+        emit(state.copyWith(
+            lastAddedLocationId: id, status: ScreenStatus.success));
+      },
+    );
   }
 }

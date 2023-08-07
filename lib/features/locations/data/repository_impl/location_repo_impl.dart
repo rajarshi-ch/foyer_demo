@@ -16,13 +16,14 @@ class LocationRepositoryImpl implements LocationRepository {
   LocationRepositoryImpl(this.dataSource);
 
   @override
-  Future<Option<Failure>> addLocation({required Location location}) async {
+  Future<Either<Failure, int>> addLocation({required Location location}) async {
     try {
-      await dataSource.addLocation(
+      var result = await dataSource.addLocation(
           location: LocationModel.fromEntity(location));
-      return none();
+      log('Added location with id $result');
+      return right(result);
     } on LocalDatabaseException {
-      return some(LocalDatabaseFailure());
+      return left(LocalDatabaseFailure());
     }
   }
 

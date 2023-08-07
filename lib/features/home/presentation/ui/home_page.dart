@@ -6,6 +6,8 @@ import 'package:foyer_demo/core/enums/screen_status.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
 import 'package:foyer_demo/features/locations/presentation/cubit/location_cubit.dart';
 import 'package:foyer_demo/features/locations/presentation/ui/location_input_dialog.dart';
+import 'package:foyer_demo/features/profiles/domain/entity/profile_entity.dart';
+import 'package:foyer_demo/features/profiles/presentation/cubit/profile_cubit.dart';
 import 'package:foyer_demo/features/profiles/presentation/ui/add_profile_dialog.dart';
 import 'package:foyer_demo/injectable.dart';
 
@@ -53,27 +55,42 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: BlocBuilder<LocationCubit, LocationState>(
+      body: BlocListener<LocationCubit, LocationState>(
         bloc: getIt<LocationCubit>(),
-        builder: (context, state) {
-          return state.status == ScreenStatus.loading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView.builder(
-                  itemCount: state.allLocations.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                          '${state.allLocations[index].id} | Latitude : ${state.allLocations[index].latitude} , Longitude : ${state.allLocations[index].longitude} | Profile : ${state.allLocations[index].profileId}'),
-                    );
-                  },
-                );
+        listener: (context, state) async {
+          // TODO: implement listener
+          ProfileEntity? profile = await showAddProfileDialog(context);
+          if (profile != null &&
+              getIt<LocationCubit>().state.lastAddedLocationId != null) {
+            await getIt<ProfileCubit>().addProfile(
+                profile, getIt<LocationCubit>().state.lastAddedLocationId!);
+          }
+          getIt<LocationCubit>().fetchAllLocations();
         },
+        listenWhen: (previous, current) =>
+            previous.lastAddedLocationId != current.lastAddedLocationId,
+        child: BlocBuilder<LocationCubit, LocationState>(
+          bloc: getIt<LocationCubit>(),
+          builder: (context, state) {
+            return state.status == ScreenStatus.loading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: state.allLocations.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(
+                            '${state.allLocations[index].id} | Latitude : ${state.allLocations[index].latitude} , Longitude : ${state.allLocations[index].longitude} | Profile : ${state.allLocations[index].profileId}'),
+                      );
+                    },
+                  );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showAddProfileDialog(context),
-        //onPressed: () => _showLocationInputDialog(context),
+        // onPressed: () => showAddProfileDialog(context),
+        onPressed: () => _showLocationInputDialog(context),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

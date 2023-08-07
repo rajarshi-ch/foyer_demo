@@ -14,16 +14,17 @@ class LocalLocationDataSource implements LocationDataSource {
 
   LocalLocationDataSource(this.databaseHelper);
   @override
-  Future addLocation({required LocationModel location}) async {
+  Future<int> addLocation({required LocationModel location}) async {
     try {
       final db = await databaseHelper.database;
       log('LocalLocationDataSource.addLocation : Latitude: ${location.latitude}, Longitude: ${location.longitude} , profileId : ${location.profileId}');
       log('Adding ${location.toJson()} to Database');
-      await db.insert(
+      var result = await db.insert(
         kLocationsTableName,
         location.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+      return result;
     } catch (e) {
       log(e.toString());
       throw LocalDatabaseException();

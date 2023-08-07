@@ -14,15 +14,21 @@ class LocalProfileDataSource implements ProfileDataSource {
 
   LocalProfileDataSource(this.databaseHelper);
   @override
-  Future<int> addProfile({required ProfileModel profile}) async {
+  Future<int> addProfile(
+      {required ProfileModel profile, required int locationId}) async {
     try {
       final db = await databaseHelper.database;
-
+      log('Adding ${profile.toJson()} to Profiles Table, LocationId : $locationId');
       var result = await db.insert(
         kProfilesTableName,
         profile.toJson(),
         conflictAlgorithm: ConflictAlgorithm.fail,
       );
+      log('Added new profile with id $result');
+      var r2 = await db.update(kLocationsTableName, {'profileId': result},
+          where: 'id = $locationId');
+
+      log('Successfully updated location table entry with id $r2');
       return result;
     } catch (e) {
       log(e.toString());
