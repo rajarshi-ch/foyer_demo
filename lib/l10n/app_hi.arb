@@ -1,0 +1,6 @@
+{
+  "@@locale": "hi",
+  "greeting": "Bonjour!",
+  "welcome": "Bienvenue dans l'application!",
+  // Add other localized strings here
+}
