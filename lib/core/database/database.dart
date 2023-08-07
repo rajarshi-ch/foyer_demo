@@ -25,8 +25,11 @@ class DatabaseHelper {
   Future<void> _onCreate(Database db, int version) async {
     // TODO : Insert default database entries here
     log("Oncreate database called");
-    return db.execute(
+    await db.execute(
       'CREATE TABLE $kLocationsTableName(id INTEGER PRIMARY KEY autoincrement, latitude REAL, longitude REAL, profileId INTEGER)',
+    );
+    await db.execute(
+      'CREATE TABLE $kProfilesTableName(id INTEGER PRIMARY KEY autoincrement, textSize REAL, themeColor TEXT)',
     );
   }
 

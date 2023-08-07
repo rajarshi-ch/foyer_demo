@@ -17,9 +17,10 @@ import 'features/locations/data/datasource/local_location_ds.dart' as _i5;
 import 'features/locations/data/datasource/location_ds.dart' as _i4;
 import 'features/locations/data/repository_impl/location_repo_impl.dart' as _i7;
 import 'features/locations/domain/repository/location_repo.dart' as _i6;
-import 'features/locations/presentation/cubit/location_cubit.dart' as _i9;
-import 'features/profiles/presentation/bloc/profile/cubit/profile_cubit.dart'
-    as _i8;
+import 'features/locations/presentation/cubit/location_cubit.dart' as _i11;
+import 'features/profiles/data/datasource/local_profile_ds.dart' as _i10;
+import 'features/profiles/data/datasource/profile_ds.dart' as _i9;
+import 'features/profiles/presentation/cubit/profile_cubit.dart' as _i8;
 
 extension GetItInjectableX on _i1.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -38,8 +39,10 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i6.LocationRepository>(
         () => _i7.LocationRepositoryImpl(gh<_i4.LocationDataSource>()));
     gh.lazySingleton<_i8.ProfileCubit>(() => _i8.ProfileCubit());
-    gh.lazySingleton<_i9.LocationCubit>(
-        () => _i9.LocationCubit(repository: gh<_i6.LocationRepository>()));
+    gh.lazySingleton<_i9.ProfileDataSource>(
+        () => _i10.LocalProfileDataSource(gh<_i3.DatabaseHelper>()));
+    gh.lazySingleton<_i11.LocationCubit>(
+        () => _i11.LocationCubit(repository: gh<_i6.LocationRepository>()));
     return this;
   }
 }

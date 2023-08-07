@@ -5,13 +5,13 @@ import 'package:foyer_demo/features/profiles/domain/repository/profile_repositor
 
 import '../../../../core/error/failures.dart';
 
-class AddProfile implements UseCase<int, ProfileEntity> {
+class GetAllProfiles implements UseCase<List<ProfileEntity>, NoParams> {
   final ProfileRepository repository;
 
-  AddProfile(this.repository);
+  GetAllProfiles(this.repository);
 
   @override
-  Future<Either<Failure, int>> call(ProfileEntity profile) async {
-    return await repository.addProfile(profile: profile);
+  Future<Either<Failure, List<ProfileEntity>>> call(NoParams params) async {
+    return await repository.getAllProfiles();
   }
 }

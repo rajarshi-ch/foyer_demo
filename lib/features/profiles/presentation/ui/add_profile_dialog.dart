@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foyer_demo/features/common/presentation/ui/color_picker_circle.dart';
+import 'package:foyer_demo/features/profiles/domain/entity/profile_entity.dart';
 
 class AddProfileDialog extends StatefulWidget {
   const AddProfileDialog({super.key});
@@ -135,41 +136,24 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
               ),
             ],
           ),
-          Column(
+          Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // LeadingIconTextButton(
-              //   label: '트래킹 해제',
-              //   horizontalPadding: .0,
-              //   verticalPadding: .0,
-              //   backgroundColor: ColorUtils.O212530,
-              //   onPressed: () {
-              //     getIt<FollowingWalletCubit>().deleteFollowingTrackWallet(
-              //         walletID: widget.followingWalletModel.walletId!);
-              //   },
-              //   labelTextStyle: TextStyle(
-              //     color: ColorUtils.Off3434,
-              //     fontSize: 18 * ffem,
-              //     fontWeight: FontWeight.w700,
-              //   ),
-              // ),
-              // const SizedBox(height: 24),
-              // TextButton(
-              //   onPressed: () => context.navigator.pop(),
-              //   style: TextButton.styleFrom(
-              //     minimumSize: Size.zero,
-              //     padding: EdgeInsets.zero,
-              //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              //   ),
-              //   child: Text(
-              //     '취소',
-              //     textAlign: TextAlign.center,
-              //     style: TextStyle(
-              //       color: ColorUtils.O9599AF,
-              //       fontSize: 16 * ffem,
-              //     ),
-              //   ),
-              // ),
+              ElevatedButton(
+                onPressed: () {
+                  // getIt<DatabaseHelper>().deleteDatabase();
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(ProfileEntity(
+                      themeColor: colorList[currentIndex].toString(),
+                      textSize: _textSize));
+                },
+                child: Text('Save'),
+              ),
             ],
           ),
         ],
@@ -178,8 +162,8 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
   }
 }
 
-void showAddProfileDialog(BuildContext context) {
-  showModalBottomSheet(
+Future<ProfileEntity?> showAddProfileDialog(BuildContext context) async {
+  return showModalBottomSheet<ProfileEntity>(
     context: context,
     isScrollControlled: true,
     isDismissible: true,
