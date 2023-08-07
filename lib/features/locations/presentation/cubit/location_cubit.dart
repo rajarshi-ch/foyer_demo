@@ -20,7 +20,7 @@ class LocationCubit extends Cubit<LocationState> {
   final AddLocation addLocationUC;
   final GetAllLocations getAllLocationsUC;
 
-  fetchAllLocations() async {
+  Future fetchAllLocations() async {
     //Get all locations from db and store in state
 
     emit(state.copyWith(status: ScreenStatus.loading));

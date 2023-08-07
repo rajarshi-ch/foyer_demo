@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:foyer_demo/core/error/exceptions.dart';
 import 'package:foyer_demo/core/error/failures.dart';
-import 'package:foyer_demo/features/locations/data/datasource/local_location_ds.dart';
 import 'package:foyer_demo/features/locations/data/datasource/location_ds.dart';
 import 'package:foyer_demo/features/locations/data/models/location_model.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';

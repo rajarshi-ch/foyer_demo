@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foyer_demo/core/enums/screen_status.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
 import 'package:foyer_demo/features/locations/presentation/cubit/location_cubit.dart';
 import 'package:foyer_demo/features/locations/presentation/ui/location_input_dialog.dart';
@@ -25,12 +27,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    getIt<LocationCubit>().fetchAllLocations();
+    super.initState();
   }
 
   void _showLocationInputDialog(BuildContext context) async {
@@ -52,19 +52,23 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+      body: BlocBuilder<LocationCubit, LocationState>(
+        bloc: getIt<LocationCubit>(),
+        builder: (context, state) {
+          return state.status == ScreenStatus.loading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  itemCount: state.allLocations.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                          'Latitude : ${state.allLocations[index].latitude} , Longitude : ${state.allLocations[index].longitude}'),
+                    );
+                  },
+                );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showLocationInputDialog(context),

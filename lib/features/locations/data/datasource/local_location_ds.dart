@@ -28,13 +28,18 @@ class LocalLocationDataSource implements LocationDataSource {
 
   @override
   Future<List<LocationModel>> getAllLocations() async {
-    final db = await databaseHelper.database;
-    // Query the table for all The Dogs.
-    final List<Map<String, dynamic>> maps = await db.query(kLocationsTableName);
+    try {
+      final db = await databaseHelper.database;
+      // Query the table for all The Locations.
+      final List<Map<String, dynamic>> maps =
+          await db.query(kLocationsTableName);
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
-    return List.generate(maps.length, (i) {
-      return LocationModel.fromJson(maps[i]);
-    });
+      // Convert the List<Map<String, dynamic> into a List<LocationModel>.
+      return List.generate(maps.length, (i) {
+        return LocationModel.fromJson(maps[i]);
+      });
+    } on Error {
+      throw LocalDatabaseException();
+    }
   }
 }
