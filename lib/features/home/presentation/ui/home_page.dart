@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foyer_demo/core/enums/screen_status.dart';
+import 'package:foyer_demo/features/home/presentation/ui/selected_profile.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
 import 'package:foyer_demo/features/locations/presentation/cubit/location_cubit.dart';
 import 'package:foyer_demo/features/locations/presentation/ui/location_input_dialog.dart';
@@ -72,6 +73,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: BlocBuilder<LocationCubit, LocationState>(
           bloc: getIt<LocationCubit>(),
           builder: (context, state) {
+            return Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8),
+                  child: SelectedProfileCard(),
+                )
+              ],
+            );
+
             return state.status == ScreenStatus.loading
                 ? const Center(
                     child: CircularProgressIndicator(),
