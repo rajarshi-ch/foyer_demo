@@ -49,7 +49,7 @@ class SelectedProfileCard extends StatelessWidget {
                       children: [
                         SizedBox(height: 2),
                         Text(
-                          "${getIt<ProfileCubit>().state.allProfilesMap[location.profileId]!.themeColor}",
+                          "${getIt<ProfileCubit>().state.allProfilesMap[location!.profileId]!.themeColor}",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,

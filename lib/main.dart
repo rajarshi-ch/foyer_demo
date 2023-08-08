@@ -25,13 +25,9 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
-                seedColor:
-                    state.allProfilesMap[state.currentLocation.profileId] ==
-                            null
-                        ? Colors.purpleAccent
-                        : hexToMaterialColor(state
-                            .allProfilesMap[state.currentLocation.profileId]!
-                            .themeColor)),
+                seedColor: state.currentProfile == null
+                    ? Colors.purpleAccent
+                    : hexToMaterialColor(state.currentProfile!.themeColor)),
             useMaterial3: true,
           ),
           home: const MyHomePage(title: 'Foyer Demo Home Page'),

@@ -8,20 +8,35 @@ class ProfileState extends Equatable {
     required this.currentLocation,
   });
 
-  const ProfileState.initial(
-      {this.allProfilesList = const [],
-      this.allProfilesMap = const {0: kInitialProfile},
-      this.status = ScreenStatus.initial,
-      this.currentLocation = kInitialLocation});
+  const ProfileState.initial({
+    this.allProfilesList = const [],
+    this.allProfilesMap = const {},
+    this.status = ScreenStatus.initial,
+    this.currentLocation,
+  });
 
   final List<ProfileEntity> allProfilesList;
   final Map<int, ProfileEntity> allProfilesMap;
   final ScreenStatus status;
-  final Location currentLocation;
+  final Location? currentLocation;
+
+  ProfileEntity? get currentProfile {
+    if (currentLocation != null) {
+      return allProfilesMap[currentLocation!.profileId];
+    } else {
+      return null;
+    }
+  }
 
   @override
-  List<Object> get props =>
-      [allProfilesList, allProfilesMap, status, currentLocation];
+  List<Object?> get props => [
+        allProfilesList,
+        allProfilesMap,
+        status,
+        currentLocation,
+        currentProfile
+      ];
+
   ProfileState copyWith({
     List<ProfileEntity>? allProfilesList,
     Map<int, ProfileEntity>? allProfilesMap,

@@ -1,11 +1,14 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foyer_demo/core/enums/screen_status.dart';
-import 'package:foyer_demo/features/home/presentation/ui/location_card.dart';
-import 'package:foyer_demo/features/home/presentation/ui/no_data_banner.dart';
-import 'package:foyer_demo/features/home/presentation/ui/selected_profile.dart';
+import 'package:foyer_demo/features/common/presentation/ui/custom_app_bar.dart';
+import 'package:foyer_demo/features/home/presentation/ui/widgets/location_card.dart';
+import 'package:foyer_demo/features/home/presentation/ui/widgets/no_data_banner.dart';
+import 'package:foyer_demo/features/home/presentation/ui/widgets/outline_message_container.dart';
+import 'package:foyer_demo/features/home/presentation/ui/widgets/selected_profile.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
 import 'package:foyer_demo/features/locations/presentation/cubit/location_cubit.dart';
 import 'package:foyer_demo/features/locations/presentation/ui/location_input_dialog.dart';
@@ -55,10 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      //   title: Text(widget.title),
+      // ),
+      appBar: CustomAppBar(),
       body: BlocListener<LocationCubit, LocationState>(
         bloc: getIt<LocationCubit>(),
         listener: (context, state) async {
@@ -79,14 +83,21 @@ class _MyHomePageState extends State<MyHomePage> {
             return BlocBuilder<ProfileCubit, ProfileState>(
               bloc: getIt<ProfileCubit>(),
               builder: (context, profileState) {
-                return (state.allLocations.isNotEmpty &&
-                        profileState.allProfilesList.isNotEmpty)
+                return (state.allLocations.isNotEmpty)
                     ? Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                            child: SelectedProfileCard(),
-                          ),
+                          if (profileState.currentProfile != null)
+                            Padding(
+                              padding: EdgeInsets.all(8),
+                              child: SelectedProfileCard(),
+                            )
+                          else
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: DottedBorderedContainer(
+                                message: "Hi, Select a location below !",
+                              ),
+                            ),
                           Expanded(
                               child: state.status == ScreenStatus.loading ||
                                       profileState.status ==
@@ -123,5 +134,56 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class RadialGradientsCanvas extends StatelessWidget {
+  final int numGradients = 10;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: CustomPaint(
+        painter: RadialGradientsPainter(numGradients),
+      ),
+    );
+  }
+}
+
+class RadialGradientsPainter extends CustomPainter {
+  final int numGradients;
+
+  RadialGradientsPainter(this.numGradients);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final random = math.Random();
+
+    for (int i = 0; i < numGradients; i++) {
+      final centerX = random.nextDouble() * size.width;
+      final centerY = random.nextDouble() * size.height;
+      final radius = random.nextDouble() * 200 + 50;
+
+      final gradient = RadialGradient(
+        colors: [
+          Colors.blue.withOpacity(random.nextDouble()),
+          Colors.green.withOpacity(random.nextDouble()),
+        ],
+        center: Alignment(
+            centerX * 2 / size.width - 1, centerY * 2 / size.height - 1),
+        radius: radius,
+      );
+
+      final paint = Paint()
+        ..shader = gradient.createShader(
+            Rect.fromCircle(center: Offset(centerX, centerY), radius: radius));
+      canvas.drawCircle(Offset(centerX, centerY), radius, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }
