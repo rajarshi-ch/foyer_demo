@@ -18,12 +18,20 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
   int currentIndex = 0;
   double _textSize = 20.0;
   List<Color> colorList = [
-    Colors.red,
     Colors.blue,
+    Colors.green,
+    Colors.red,
+    Colors.orange,
+    Colors.purple,
     Colors.teal,
-    Colors.yellow,
-    Colors.teal,
-    Colors.yellow,
+    Colors.deepPurple,
+    Colors.cyan,
+    Colors.amber,
+    Colors.indigo,
+    Colors.lime,
+    Colors.pink,
+    Colors.brown,
+    Colors.blueGrey,
   ];
 
   @override
@@ -71,7 +79,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 8),
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +88,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 100,
+                    height: 50,
                     child: Center(
                       child: Text(
                         'Font Size : $_textSize',
@@ -91,7 +99,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 8),
                   Slider(
                     value: _textSize,
                     min: 10.0,
@@ -105,6 +113,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
                   ),
                 ],
               ),
+              const SizedBox(height: 8),
               Text(
                 'Select a theme color :',
                 style: TextStyle(
@@ -114,7 +123,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
               ),
               const SizedBox(height: 8),
               SizedBox(
-                height: 150,
+                height: 220,
                 child: GridView.builder(
                   itemCount: colorList.length,
                   physics: NeverScrollableScrollPhysics(),
