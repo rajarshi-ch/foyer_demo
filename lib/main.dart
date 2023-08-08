@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foyer_demo/core/util/color_to_hex_string.dart';
 import 'package:foyer_demo/features/home/presentation/ui/home_page.dart';
+import 'package:foyer_demo/features/profiles/presentation/cubit/profile_cubit.dart';
 
 import 'injectable.dart';
 
@@ -15,13 +18,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Foyer Demo Home Page'),
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      bloc: getIt<ProfileCubit>(),
+      builder: (context, state) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+                seedColor:
+                    state.allProfilesMap[state.currentLocation.profileId] ==
+                            null
+                        ? Colors.purpleAccent
+                        : hexToMaterialColor(state
+                            .allProfilesMap[state.currentLocation.profileId]!
+                            .themeColor)),
+            useMaterial3: true,
+          ),
+          home: const MyHomePage(title: 'Foyer Demo Home Page'),
+        );
+      },
     );
   }
 }

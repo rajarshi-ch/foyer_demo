@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foyer_demo/core/constants/const_values.dart';
 import 'package:foyer_demo/core/enums/screen_status.dart';
 import 'package:foyer_demo/core/usecases/usecase.dart';
+import 'package:foyer_demo/features/locations/domain/entity/location.dart';
 import 'package:foyer_demo/features/profiles/domain/entity/profile_entity.dart';
 import 'package:foyer_demo/features/profiles/domain/repository/profile_repository.dart';
 import 'package:foyer_demo/features/profiles/domain/usecase/add_profile_uc.dart';
@@ -45,5 +47,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         (id) {
       fetchAllProfiles();
     });
+  }
+
+  selectLocation(Location location) {
+    emit(state.copyWith(currentLocation: location));
   }
 }

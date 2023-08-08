@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foyer_demo/core/enums/screen_status.dart';
+import 'package:foyer_demo/features/home/presentation/ui/location_card.dart';
 import 'package:foyer_demo/features/home/presentation/ui/selected_profile.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
 import 'package:foyer_demo/features/locations/presentation/cubit/location_cubit.dart';
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     getIt<LocationCubit>().fetchAllLocations();
+    getIt<ProfileCubit>().fetchAllProfiles();
     super.initState();
   }
 
@@ -73,28 +75,36 @@ class _MyHomePageState extends State<MyHomePage> {
         child: BlocBuilder<LocationCubit, LocationState>(
           bloc: getIt<LocationCubit>(),
           builder: (context, state) {
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: SelectedProfileCard(),
-                )
-              ],
+            return BlocBuilder<ProfileCubit, ProfileState>(
+              bloc: getIt<ProfileCubit>(),
+              builder: (context, profileState) {
+                return Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: SelectedProfileCard(),
+                    ),
+                    Expanded(
+                        child: state.status == ScreenStatus.loading ||
+                                profileState.status == ScreenStatus.loading
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : ListView.builder(
+                                itemCount: state.allLocations.length,
+                                itemBuilder: (context, index) {
+                                  return LocationCard(
+                                      location: state.allLocations[index]);
+                                  return ListTile(
+                                    title: Text(
+                                        '${state.allLocations[index].id} | Latitude : ${state.allLocations[index].latitude} , Longitude : ${state.allLocations[index].longitude} | Profile : ${state.allLocations[index].profileId}'),
+                                  );
+                                },
+                              )),
+                  ],
+                );
+              },
             );
-
-            return state.status == ScreenStatus.loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: state.allLocations.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                            '${state.allLocations[index].id} | Latitude : ${state.allLocations[index].latitude} , Longitude : ${state.allLocations[index].longitude} | Profile : ${state.allLocations[index].profileId}'),
-                      );
-                    },
-                  );
           },
         ),
       ),

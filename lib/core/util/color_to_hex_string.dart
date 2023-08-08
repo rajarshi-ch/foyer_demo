@@ -4,8 +4,9 @@ String materialColorToHex(Color color) {
   return '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
 }
 
-MaterialColor hexToMaterialColor(String hexString) {
+Color hexToMaterialColor(String hexString) {
   int value = int.parse(hexString.substring(1, 7), radix: 16);
+  return Color(value).withOpacity(1.0);
   return MaterialColor(value, {
     50: Color(value).withOpacity(0.1),
     100: Color(value).withOpacity(0.2),

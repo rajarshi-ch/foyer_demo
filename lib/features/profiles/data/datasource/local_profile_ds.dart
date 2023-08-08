@@ -46,6 +46,7 @@ class LocalProfileDataSource implements ProfileDataSource {
 
       // Convert the List<Map<String, dynamic> into a List<LocationModel>.
       return List.generate(maps.length, (i) {
+        log('${maps[i]}');
         return ProfileModel.fromJson(maps[i]);
       });
     } catch (e) {
