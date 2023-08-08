@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:foyer_demo/features/common/presentation/ui/color_picker_circle.dart';
+import 'package:foyer_demo/features/profiles/presentation/cubit/profile_cubit.dart';
+import 'package:foyer_demo/injectable.dart';
 
 class SelectedProfileCard extends StatelessWidget {
   const SelectedProfileCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var location = getIt<ProfileCubit>().state.currentLocation;
     return Container(
       padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
       decoration: BoxDecoration(
@@ -37,7 +40,7 @@ class SelectedProfileCard extends StatelessWidget {
                         ),
                         child: ColorPickerCircle(
                           color: Theme.of(context).colorScheme.primary,
-                          isSelected: false,
+                          isSelected: true,
                         ),
                       ),
                     ),
@@ -46,7 +49,7 @@ class SelectedProfileCard extends StatelessWidget {
                       children: [
                         SizedBox(height: 2),
                         Text(
-                          "NickName",
+                          "${getIt<ProfileCubit>().state.allProfilesMap[location.profileId]!.themeColor}",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -57,7 +60,7 @@ class SelectedProfileCard extends StatelessWidget {
                         ),
                         Text(
                           // LC6 (8:27759)
-                          'total assets',
+                          'Current Location :',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
@@ -69,46 +72,8 @@ class SelectedProfileCard extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                CircleAvatar(),
-                // Container(
-                //   // arrowg14 (8:27760)
-                //   margin:
-                //       EdgeInsets.fromLTRB(0 , 0 , 0 , 2 ),
-                //   child: Icon(
-                //     Icons.chevron_right,
-                //     color: ColorUtils.OA7ACCB,
-                //     size: 28 ,
-                //   ),
-                // ),
               ],
             ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 40,
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  width: 1,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: Text(
-              '소개글 작성',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xFF1D6DFF),
-                fontSize: 13,
-                fontFamily: 'SF Pro Text',
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 16,
           ),
           SizedBox(
             // followernpn (8:27761)
@@ -140,15 +105,15 @@ class SelectedProfileCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            '팔로워',
+                            '${location.latitude}',
                             style: TextStyle(
-                              color: Color(0xffa7acca),
+                              color: Theme.of(context).colorScheme.onSecondary,
                               fontSize: 13,
                             ),
                           ),
                           const SizedBox(width: 2),
                           Text(
-                            'lat',
+                            'lattitude',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -172,15 +137,15 @@ class SelectedProfileCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '팔로잉',
+                          '${location.longitude}',
                           style: TextStyle(
-                            color: Color(0xffa7acca),
+                            color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 13,
                           ),
                         ),
                         SizedBox(width: 2),
                         Text(
-                          'Long',
+                          'Longitude',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 13,

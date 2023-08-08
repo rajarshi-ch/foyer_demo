@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foyer_demo/core/util/color_to_hex_string.dart';
 import 'package:foyer_demo/features/locations/domain/entity/location.dart';
@@ -14,7 +12,6 @@ class LocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('${hexToMaterialColor(getIt<ProfileCubit>().state.allProfilesMap[location.profileId]!.themeColor)}');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
@@ -25,7 +22,7 @@ class LocationCard extends StatelessWidget {
           height: 84,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           decoration: ShapeDecoration(
-            color: Color(0xFF212530),
+            color: Theme.of(context).colorScheme.tertiary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -65,7 +62,7 @@ class LocationCard extends StatelessWidget {
                           Text(
                             '${location.latitude} , ${location.longitude}',
                             style: TextStyle(
-                              color: Color(0xFFA7ACCA),
+                              color: Theme.of(context).colorScheme.onTertiary,
                               fontSize: 16,
                               fontFamily: 'SF Pro Text',
                               fontWeight: FontWeight.w400,

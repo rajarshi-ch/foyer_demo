@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foyer_demo/core/constants/const_values.dart';
 import 'package:foyer_demo/core/util/color_to_hex_string.dart';
 import 'package:foyer_demo/features/common/presentation/ui/color_picker_circle.dart';
 import 'package:foyer_demo/features/profiles/domain/entity/profile_entity.dart';
@@ -31,12 +32,12 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
-        color: Color(0xff181b24),
+        color: Colors.black,
       ),
       padding: EdgeInsets.symmetric(
         vertical: 32,
@@ -129,11 +130,11 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
             ],
           ),
           Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // getIt<DatabaseHelper>().deleteDatabase();
+                  Navigator.of(context).pop(kInitialProfile);
                   Navigator.of(context).pop();
                 },
                 child: Text('Cancel'),
@@ -158,7 +159,7 @@ Future<ProfileEntity?> showAddProfileDialog(BuildContext context) async {
   return showModalBottomSheet<ProfileEntity>(
     context: context,
     isScrollControlled: true,
-    isDismissible: true,
+    isDismissible: false,
     builder: (BuildContext context) {
       return Wrap(
         children: [AddProfileDialog()],

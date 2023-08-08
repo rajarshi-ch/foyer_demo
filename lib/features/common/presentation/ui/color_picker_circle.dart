@@ -21,7 +21,9 @@ class ColorPickerCircle extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: isSelected ? Color(0xff1d6dff) : Color(0x001d6dff),
+              color: isSelected
+                  ? Theme.of(context).colorScheme.tertiary
+                  : Color(0x001d6dff),
               width: 2,
             ),
           ),
