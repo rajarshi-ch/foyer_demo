@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:foyer_demo/core/constants/const_values.dart';
+import 'package:foyer_demo/features/profiles/data/models/profile_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -30,6 +31,14 @@ class DatabaseHelper {
     );
     await db.execute(
       'CREATE TABLE $kProfilesTableName(id INTEGER PRIMARY KEY autoincrement, textSize REAL, themeColor TEXT)',
+    );
+    var defaultProfileMap = ProfileModel.fromEntity(kInitialProfile)
+        .toJson(); // Explicitly setting id, or sqflite will auto-increment
+    defaultProfileMap['id'] = kInitialProfile.id;
+    await db.insert(
+      kProfilesTableName,
+      defaultProfileMap,
+      conflictAlgorithm: ConflictAlgorithm.fail,
     );
   }
 

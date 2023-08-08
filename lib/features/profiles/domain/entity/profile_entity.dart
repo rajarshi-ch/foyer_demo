@@ -6,7 +6,7 @@ class ProfileEntity extends Equatable {
   final double textSize;
 
   const ProfileEntity({
-    this.id = 0,
+    this.id = -1,
     required this.themeColor,
     required this.textSize,
   });

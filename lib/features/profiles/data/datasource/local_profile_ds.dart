@@ -19,11 +19,13 @@ class LocalProfileDataSource implements ProfileDataSource {
     try {
       final db = await databaseHelper.database;
       log('Adding ${profile.toJson()} to Profiles Table, LocationId : $locationId');
-      var result = await db.insert(
-        kProfilesTableName,
-        profile.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.fail,
-      );
+      var result = profile.id == 0
+          ? 0
+          : await db.insert(
+              kProfilesTableName,
+              profile.toJson(),
+              conflictAlgorithm: ConflictAlgorithm.fail,
+            );
       log('Added new profile with id $result');
       var r2 = await db.update(kLocationsTableName, {'profileId': result},
           where: 'id = $locationId');
@@ -46,7 +48,7 @@ class LocalProfileDataSource implements ProfileDataSource {
 
       // Convert the List<Map<String, dynamic> into a List<LocationModel>.
       return List.generate(maps.length, (i) {
-        log('${maps[i]}');
+        log('Profile read : ${maps[i]}');
         return ProfileModel.fromJson(maps[i]);
       });
     } catch (e) {

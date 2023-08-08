@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foyer_demo/core/constants/const_values.dart';
 import 'package:foyer_demo/core/util/color_to_hex_string.dart';
 import 'package:foyer_demo/features/common/presentation/ui/color_picker_circle.dart';
+import 'package:foyer_demo/features/common/presentation/ui/wide_fab.dart';
 import 'package:foyer_demo/features/profiles/domain/entity/profile_entity.dart';
 
 class AddProfileDialog extends StatefulWidget {
@@ -129,26 +130,34 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(kInitialProfile);
-                  Navigator.of(context).pop();
-                },
-                child: Text('Cancel'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(ProfileEntity(
-                      themeColor: materialColorToHex(colorList[currentIndex]),
-                      textSize: _textSize));
-                },
-                child: Text('Save'),
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     ElevatedButton(
+          //       onPressed: () {
+          //         Navigator.of(context).pop(kInitialProfile);
+          //         Navigator.of(context).pop();
+          //       },
+          //       child: Text('Cancel'),
+          //     ),
+          //     ElevatedButton(
+          //       onPressed: () {
+          //         Navigator.of(context).pop(ProfileEntity(
+          //             themeColor: materialColorToHex(colorList[currentIndex]),
+          //             textSize: _textSize));
+          //       },
+          //       child: Text('Save'),
+          //     ),
+          //   ],
+          // ),
+          WideFab(
+            label: "Save & Assign",
+            onPressed: () {
+              Navigator.of(context).pop(ProfileEntity(
+                  themeColor: materialColorToHex(colorList[currentIndex]),
+                  textSize: _textSize));
+            },
+          )
         ],
       ),
     );

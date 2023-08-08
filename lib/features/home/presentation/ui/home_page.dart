@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foyer_demo/core/constants/const_values.dart';
 import 'package:foyer_demo/core/enums/screen_status.dart';
 import 'package:foyer_demo/features/common/presentation/ui/custom_app_bar.dart';
 import 'package:foyer_demo/features/home/presentation/ui/widgets/location_card.dart';
@@ -72,6 +73,24 @@ class _MyHomePageState extends State<MyHomePage> {
               getIt<LocationCubit>().state.lastAddedLocationId != null) {
             await getIt<ProfileCubit>().addProfile(
                 profile, getIt<LocationCubit>().state.lastAddedLocationId!);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Profile added & assigned !"),
+                duration: Duration(seconds: 2),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          } else {
+            await getIt<ProfileCubit>().addProfile(kInitialProfile,
+                getIt<LocationCubit>().state.lastAddedLocationId!);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Default Profile assigned to this location !"),
+                duration: Duration(seconds: 2),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
           }
           getIt<LocationCubit>().fetchAllLocations();
         },
@@ -134,56 +153,5 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-}
-
-class RadialGradientsCanvas extends StatelessWidget {
-  final int numGradients = 10;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: CustomPaint(
-        painter: RadialGradientsPainter(numGradients),
-      ),
-    );
-  }
-}
-
-class RadialGradientsPainter extends CustomPainter {
-  final int numGradients;
-
-  RadialGradientsPainter(this.numGradients);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final random = math.Random();
-
-    for (int i = 0; i < numGradients; i++) {
-      final centerX = random.nextDouble() * size.width;
-      final centerY = random.nextDouble() * size.height;
-      final radius = random.nextDouble() * 200 + 50;
-
-      final gradient = RadialGradient(
-        colors: [
-          Colors.blue.withOpacity(random.nextDouble()),
-          Colors.green.withOpacity(random.nextDouble()),
-        ],
-        center: Alignment(
-            centerX * 2 / size.width - 1, centerY * 2 / size.height - 1),
-        radius: radius,
-      );
-
-      final paint = Paint()
-        ..shader = gradient.createShader(
-            Rect.fromCircle(center: Offset(centerX, centerY), radius: radius));
-      canvas.drawCircle(Offset(centerX, centerY), radius, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }
