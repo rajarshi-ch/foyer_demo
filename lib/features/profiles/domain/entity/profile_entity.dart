@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 
 class ProfileEntity extends Equatable {
@@ -13,4 +15,10 @@ class ProfileEntity extends Equatable {
 
   @override
   List<Object?> get props => [id, themeColor, textSize];
+
+  bool equalsExceptId(ProfileEntity other) {
+    log('Comparing ${themeColor} with ${other.themeColor}');
+    log('Comparing ${textSize} with ${other.textSize}');
+    return themeColor == other.themeColor && textSize == other.textSize;
+  }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:foyer_demo/core/constants/const_values.dart';
 import 'package:foyer_demo/core/util/color_to_hex_string.dart';
 import 'package:foyer_demo/features/common/presentation/ui/color_picker_circle.dart';
 import 'package:foyer_demo/features/common/presentation/ui/wide_fab.dart';
 import 'package:foyer_demo/features/profiles/domain/entity/profile_entity.dart';
+import 'package:foyer_demo/features/profiles/presentation/cubit/profile_cubit.dart';
+import 'package:foyer_demo/injectable.dart';
 
 class AddProfileDialog extends StatefulWidget {
   const AddProfileDialog({super.key});
@@ -28,6 +29,19 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
   @override
   void initState() {
     super.initState();
+  }
+
+  bool checkDuplicateProfile() {
+    final currentState = getIt<ProfileCubit>().state;
+    final newProfile = ProfileEntity(
+        themeColor: materialColorToHex(colorList[currentIndex]),
+        textSize: _textSize);
+
+    bool isDuplicate = currentState.allProfilesList.any(
+      (profile) => profile.equalsExceptId(newProfile),
+    );
+
+    return isDuplicate;
   }
 
   @override
@@ -58,13 +72,6 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
             ),
           ),
           const SizedBox(height: 24),
-          Text(
-            'Select a font size :',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +83,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
                     height: 100,
                     child: Center(
                       child: Text(
-                        'Sample Text',
+                        'Font Size : $_textSize',
                         style: TextStyle(
                           fontSize: _textSize,
                           color: Colors.white,
@@ -89,6 +96,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
                     value: _textSize,
                     min: 10.0,
                     max: 40.0,
+                    divisions: 30,
                     onChanged: (newValue) {
                       setState(() {
                         _textSize = newValue;
@@ -130,28 +138,18 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
               ),
             ],
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     ElevatedButton(
-          //       onPressed: () {
-          //         Navigator.of(context).pop(kInitialProfile);
-          //         Navigator.of(context).pop();
-          //       },
-          //       child: Text('Cancel'),
-          //     ),
-          //     ElevatedButton(
-          //       onPressed: () {
-          //         Navigator.of(context).pop(ProfileEntity(
-          //             themeColor: materialColorToHex(colorList[currentIndex]),
-          //             textSize: _textSize));
-          //       },
-          //       child: Text('Save'),
-          //     ),
-          //   ],
-          // ),
+          if (checkDuplicateProfile())
+            Text(
+              'Duplicate Profile Exists',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 16,
+                fontFamily: 'SF Pro Text',
+              ),
+            ),
           WideFab(
             label: "Save & Assign",
+            isEnabled: !checkDuplicateProfile(),
             onPressed: () {
               Navigator.of(context).pop(ProfileEntity(
                   themeColor: materialColorToHex(colorList[currentIndex]),

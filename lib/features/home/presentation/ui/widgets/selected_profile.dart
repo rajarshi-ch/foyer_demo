@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foyer_demo/core/util/color_to_hex_string.dart';
 import 'package:foyer_demo/features/common/presentation/ui/color_picker_circle.dart';
 import 'package:foyer_demo/features/profiles/presentation/cubit/profile_cubit.dart';
 import 'package:foyer_demo/injectable.dart';
@@ -9,6 +10,7 @@ class SelectedProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var location = getIt<ProfileCubit>().state.currentLocation;
+    var profile = getIt<ProfileCubit>().state.currentProfile;
     return Container(
       padding: EdgeInsets.fromLTRB(12, 16, 12, 16),
       decoration: BoxDecoration(
@@ -39,7 +41,7 @@ class SelectedProfileCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: ColorPickerCircle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: hexToMaterialColor(profile!.themeColor),
                           isSelected: true,
                         ),
                       ),
