@@ -68,7 +68,7 @@ class _LocationInputDialogState extends State<LocationInputDialog> {
       actions: [
         ElevatedButton(
           onPressed: () {
-            getIt<DatabaseHelper>().deleteDatabase();
+            //getIt<DatabaseHelper>().deleteDatabase();
             Navigator.of(context).pop();
           },
           child: Text('Cancel'),
