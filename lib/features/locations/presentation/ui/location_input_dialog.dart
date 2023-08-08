@@ -38,9 +38,9 @@ class _LocationInputDialogState extends State<LocationInputDialog> {
                 return null;
               },
               onChanged: (value) {
-                if (value.isEmpty) {
-                  _formKey.currentState!.reset();
-                }
+                // if (value.isEmpty) {
+                //   _formKey.currentState!.reset();
+                // }
               },
             ),
             TextFormField(
@@ -57,9 +57,9 @@ class _LocationInputDialogState extends State<LocationInputDialog> {
                 return null;
               },
               onChanged: (value) {
-                if (value.isEmpty) {
-                  _formKey.currentState!.reset();
-                }
+                // if (value.isEmpty) {
+                //   _formKey.currentState!.reset();
+                // }
               },
             ),
           ],

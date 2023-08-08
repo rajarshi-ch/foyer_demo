@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foyer_demo/core/util/color_to_hex_string.dart';
 import 'package:foyer_demo/features/home/presentation/ui/home_page.dart';
@@ -8,6 +9,7 @@ import 'injectable.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await configureDependencies();
   runApp(const MyApp());
 }
