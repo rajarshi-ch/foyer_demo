@@ -123,7 +123,7 @@ class _AddProfileDialogState extends State<AddProfileDialog> {
               ),
               const SizedBox(height: 8),
               SizedBox(
-                height: 220,
+                height: MediaQuery.of(context).size.height * 0.3,
                 child: GridView.builder(
                   itemCount: colorList.length,
                   physics: NeverScrollableScrollPhysics(),
